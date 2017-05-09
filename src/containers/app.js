@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import Header from './header/index';
 import Footer from './Footer/index';
+import LeftMenu from "./menu/index";
+import '../styles/theme.scss'
 import '../styles/index.scss'
 export default class App extends Component {
 
   constructor(props, context) {
     super(props)
     this.state = {
-      pathname: ""
+      pathname: "",
+      modle: "group"
     }
   }
 
@@ -19,15 +22,29 @@ export default class App extends Component {
       pathname = "mobile";
     }
     else {
-      header = <Header />
+      header = <Header setModle={this.setModle.bind(this)} />
     }
     return header;
   }
+
+  setModle (value) {
+    this.setState({
+      modle: value
+    })
+  }
+
 	render() {
 		return (
 			<div className="main">
-				{this.getHeader()}
-				<div className="main-content">{this.props.children}</div>
+				<div className="main-header">{this.getHeader()}</div>
+				<div className="main-content">
+          <div className="main-left-content">
+            <LeftMenu modle={this.state.modle} />
+          </div>
+          <div className="main-right-content">
+            {this.props.children}
+          </div>
+        </div>
       </div>
     );
   }
